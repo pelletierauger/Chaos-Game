@@ -6,7 +6,7 @@ function drawVertices() {
     gl.bindBuffer(gl.ARRAY_BUFFER, vertex_buffer);
 
     // Pass the vertex data to the buffer
-    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(vertices), gl.STATIC_DRAW);
+    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(game.vertices), gl.STATIC_DRAW);
 
     // Unbind the buffer
     gl.bindBuffer(gl.ARRAY_BUFFER, null);
@@ -34,9 +34,9 @@ function drawVertices() {
     // gl.blendFunc(gl.ONE, gl.ONE);
     // gl.clear(gl.COLOR_BUFFER_BIT);
     // gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA);
-    
+
     // background(0, 255);
 
     // Draw the triangle
-    gl.drawArrays(gl.POINTS, 0, Math.floor(vertices.length / 3));
+    gl.drawArrays(gl.POINTS, 0, Math.floor(game.vertices.length / 3));
 }
