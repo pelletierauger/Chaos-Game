@@ -9,11 +9,12 @@ function setup() {
     cnvs = createCanvas(windowWidth, windowHeight, WEBGL);
 
     gl = canvas.getContext('webgl');
-    gl.enable(gl.BLEND);
-    gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA);
     gl.clearColor(0.0, 0.0, 0.0, 1.0);
-    gl.enable(gl.DEPTH_TEST);
+    // gl.enable(gl.DEPTH_TEST);
     gl.clear(gl.COLOR_BUFFER_BIT);
+    gl.enable(gl.BLEND);
+    // gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA);
+    gl.blendFunc(gl.SRC_ALPHA, gl.DST_ALPHA);
     gl.viewport(0, 0, canvas.width, canvas.height);
     setShaders();
 
@@ -23,12 +24,11 @@ function setup() {
     if (!looping) {
         noLoop();
     }
-    game.setup();
+    game.initialize();
 }
 
 function draw() {
-
-    game.setup(frameCount * 1);
+    // game.initialize(10 + frameCount * 0.001);
     game.update();
     drawVertices();
 
