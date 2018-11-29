@@ -125,15 +125,15 @@ spiral.initialize = function() {
     let d = Math.PI * 2 / 6.75;
     d = Math.PI / 4;
     d = Math.PI / 8;
+    d = 0;
+    // d = Math.PI * 2;
 
     for (let i = d; i < numOfPoints; i += 1) {
-        let x = Math.cos(i) * i * 0.035;
-        let y = Math.sin(i) * i * 0.035;
+        let x = Math.cos(i * 0.5) * i * 0.0335;
+        let y = Math.sin(i * 0.5) * i * 0.0335;
 
         // this.seeds.push({ x: x - 1, y: y + 2 });
-        this.seeds.push({ x: x - 0, y: y + 0 });
-
-
+        this.seeds.push({ x: x - 0, y: y + 0, i: i });
     }
 };
 
@@ -162,7 +162,7 @@ spiral.update = function() {
 
         // let probability = map(this.current.y, 0, 1, 0.1, 1);
         // if (random() < probability) {
-        this.vertices.push(this.current.x, this.current.y, 0.0);
+
         // }
         newRand = random(this.seeds);
         while (current == newRand) {
@@ -171,6 +171,30 @@ spiral.update = function() {
 
         this.current.x = lerp(this.current.x, newRand.x, lerpy);
         this.current.y = lerp(this.current.y, newRand.y, lerpy);
+
+        let absX = abs(this.current.x);
+        let absY = abs(this.current.y);
+        absX *= absX;
+        absY *= absY;
+        let hyp = Math.sqrt(absX + absY);
+        let probability = map(hyp, 0, 1, 0, 1);
+        // if (newRand.i < 15) {
+        //     probability *= 0.25;
+        // }
+        if (Math.random() < probability) {
+            if (lerpy == 0.95) {
+                if (i % 10 == 0) {
+                    // if (newRand.i > 15) {
+                    this.vertices.push(this.current.x, this.current.y, 0.0);
+                    // }
+
+                }
+            } else {
+                this.vertices.push(this.current.x, this.current.y, 0.0);
+            }
+        }
+
+
     }
 
 };

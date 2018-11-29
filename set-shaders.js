@@ -13,7 +13,7 @@ function setShaders() {
         center = vec2(gl_Position.x, gl_Position.y);
         center = 512.0 + center * 512.0;
         myposition = vec2(gl_Position.x, gl_Position.y);
-        gl_PointSize = 0.5;
+        gl_PointSize = 5.5;
     }`;
 
     // Create a vertex shader object
@@ -58,7 +58,8 @@ function setShaders() {
         //     alpha = 0.0;
         // }
 
-        alpha = smoothstep(0.0095, 0.000125, dist_squared) * 0.49;
+        // alpha = smoothstep(0.0095, 0.000125, dist_squared) * 0.49;
+        alpha = smoothstep(0.001, 0.1, dist_squared);
         float rando = rand(pos);
         // gl_FragColor = vec4(1.0, (1.0 - dist_squared * 40.) * 0.6, 0.0, alpha + ((0.12 - dist_squared) * 4.) - (rando * 0.2));
         // gl_FragColor = vec4(1.0, 1.0 - dist_squared * 1.0, 0.0, 0.35 - dist_squared - (rando * 0.2) + alpha);
@@ -66,7 +67,8 @@ function setShaders() {
 
         // gl_FragColor = vec4(1.0, 1.0 - dist_squared * 1.0, 0.0, (0.35 - dist_squared - (rando * 0.2)) * 0.5);
         // gl_FragColor = vec4(vec3(1.0), (1.0 - dist_squared) * 0.01125);
-        gl_FragColor = vec4(vec3(1.0), (1.0 - dist_squared) * 0.01125);
+        // gl_FragColor = vec4(vec3(1.0), (1.0 - dist_squared) * 0.01125 * 0.25);
+        gl_FragColor = vec4(vec3(1.0), (1.0 - alpha) * 0.005);
 
 
 
