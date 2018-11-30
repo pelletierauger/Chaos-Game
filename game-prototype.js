@@ -1273,6 +1273,7 @@ smoothSpiral6.update = function() {
 
 
 
+// let N = 0;
 let smoothSpiral7 = new Game();
 
 smoothSpiral7.initialize = function() {
@@ -1334,7 +1335,7 @@ smoothSpiral7.update = function() {
     // fill(red, green, blue, 55);
     // translate(width / 2, height / 2);
     for (let i = 0; i < 200000; i++) {
-
+        // N++;
         // let probability = map(this.current.y, 0, 1, 0.1, 1);
         // if (random() < probability) {
 
@@ -1602,11 +1603,12 @@ smoothSpiral10.initialize = function() {
     this.seeds = [];
     this.current = { x: random(width), y: random(height) };
     let scalar = (Math.random() < 0.5) ? 0.25 : 0.05;
-    scalar = 70 + frameCount * 0.001;
+    // scalar = 70 + frameCount * 0.001;
     // if (frameCount > 1200) {
     //     scalar = 0.05;
     // }
-    let numOfPoints = 12;
+    scalar = 0.5;
+    let numOfPoints = 100;
 
     // numOfPoints = (scalar == 0.25) ? 74 : 350;
     // numOfPoints = 62;
@@ -1621,7 +1623,7 @@ smoothSpiral10.initialize = function() {
 
 
 
-    let f = frameCount * 0.001;
+    let f = Math.sin(frameCount * 0.0001);
     this.xOffset = 4.5;
     for (let i = d; i < numOfPoints; i += 1) {
         let x = Math.cos((i + f) * scalar) * i;
@@ -1640,7 +1642,7 @@ smoothSpiral10.initialize = function() {
 
 smoothSpiral10.update = function() {
     this.initialize();
-    gl.clear(gl.COLOR_BUFFER_BIT);
+    // gl.clear(gl.COLOR_BUFFER_BIT);
     this.vertices = [];
     let lerpy = map(sin(frameCount * 0.1), -1, 1, 0.5, 1);
     let newRand;
@@ -1651,7 +1653,7 @@ smoothSpiral10.update = function() {
     // lerpy = map(sin(frameCount * 10), -1, 1, 0.5, 1);
     // lerpy = 0.9;
     // lerpy = random([0.75, 0.85, 0.95]);
-    lerpy = random([0.9]);
+    lerpy = random([0.9, 1.2]);
     // lerpy = random([0.25, 0.5, 0.75, 0.85, 0.95, 1.25, 2]);
     // lerpy += map(sin(frameCount * 10), -1, 1, 0.5, 1) * 0.1;
     // lerpy += map(sin(frameCount * 10), -1, 1, 0.5, 1) * 0.1;
@@ -1675,28 +1677,28 @@ smoothSpiral10.update = function() {
         this.current.x = lerp(this.current.x, newRand.x, lerpy);
         this.current.y = lerp(this.current.y, newRand.y, lerpy);
 
-        let absX = abs(this.current.x - this.xOffset);
-        let absY = abs(this.current.y + 0);
+        let absX = abs(this.current.x);
+        let absY = abs(this.current.y);
         absX *= absX;
         absY *= absY;
         let hyp = Math.sqrt(absX + absY);
-        // let probability = map(hyp, 0, 4, 0, 0.25);
+        let probability = map(hyp, 0, 4, 0, 1);
         // if (newRand.i < 15) {
         //     probability *= 0.25;
         // }
-        // if (Math.random() < probability) {
-        this.vertices.push(this.current.x, this.current.y, 0.0);
+        if (Math.random() < probability) {
+            // this.vertices.push(this.current.x, this.current.y, 0.0);
 
-        // if (lerpy == 0.95) {
-        //     // if (i % 3 == 0) {
-        //     //     // if (newRand.i > 15) {
-        //     this.vertices.push(this.current.x, this.current.y, 0.0);
-        //     // }
-        //     //     // }
-        // } else {
-        //     this.vertices.push(this.current.x, this.current.y, 0.0);
-        // }
-        // }
+            if (lerpy == 0.95) {
+                if (i % 30 == 0) {
+                    //     //     // if (newRand.i > 15) {
+                    this.vertices.push(this.current.x, this.current.y, 0.0);
+                }
+                //     //     // }
+            } else {
+                this.vertices.push(this.current.x, this.current.y, 0.0);
+            }
+        }
 
 
     }
@@ -1704,4 +1706,224 @@ smoothSpiral10.update = function() {
 };
 
 
-let game = smoothSpiral10;
+
+
+let smoothSpiral11 = new Game();
+
+smoothSpiral11.initialize = function() {
+    this.seeds = [];
+    this.current = { x: random(width), y: random(height) };
+    let scalar = (Math.random() < 0.5) ? 0.25 : 0.05;
+    // scalar = 70 + frameCount * 0.001;
+    // if (frameCount > 1200) {
+    //     scalar = 0.05;
+    // }
+    scalar = 1;
+    let numOfPoints = 50;
+
+    // numOfPoints = (scalar == 0.25) ? 74 : 350;
+    // numOfPoints = 62;
+
+    let increment = Math.PI * 2 / numOfPoints;
+
+    let d = Math.PI * 2 / 6.75;
+    d = Math.PI / 4;
+    d = Math.PI / 8;
+    d = 0;
+    // d = Math.PI * 2;
+
+
+
+    let f = Math.sin(frameCount * 0.0001);
+    this.xOffset = 4.5;
+    for (let i = d; i < numOfPoints; i += 1) {
+        let x = Math.cos((i + f) * scalar) * i;
+        let y = Math.sin((i + f) * scalar) * i;
+
+        x *= 0.018;
+        y *= 0.018;
+        x *= 1.5;
+        y *= 1.5;
+        // x += this.xOffset;
+        // y -= 0.9;
+        // this.seeds.push({ x: x - 1, y: y + 2 });
+        // this.seeds.push({ x: x - 0, y: y + 0, i: i });
+        this.seeds.push({ x: x, y: y, i: i });
+    }
+};
+
+
+smoothSpiral11.update = function() {
+    this.initialize();
+    // gl.clear(gl.COLOR_BUFFER_BIT);
+    this.vertices = [];
+    let lerpy = map(sin(frameCount * 0.1), -1, 1, 0.5, 1);
+    let newRand;
+    lerpy = 0.5;
+    // lerpy = map(sin(frameCount * 0.1), -1, 1, 0.5, 0.75);
+    // lerpy = map(sin(frameCount * 0.1), -1, 1, 0.5, 0.55);
+    // lerpy = map(sin(frameCount * 0.1), -1, 1, 0.55, 0.65);
+    // lerpy = map(sin(frameCount * 10), -1, 1, 0.5, 1);
+    // lerpy = 0.9;
+    // lerpy = random([0.75, 0.85, 0.95]);
+    lerpy = random([0.9, 1.2, 2.25]);
+    // lerpy = random([0.25, 0.5, 0.75, 0.85, 0.95, 1.25, 2]);
+    // lerpy += map(sin(frameCount * 10), -1, 1, 0.5, 1) * 0.1;
+    // lerpy += map(sin(frameCount * 10), -1, 1, 0.5, 1) * 0.1;
+    // let red = map(lerpy, 0, 1.25, 0, 255);
+    // let green = map(lerpy, 0, 1, 0, 155);
+    // let blue = map(lerpy, 0, 1.25, 20, 0);
+    // blue = map(sin(frameCount), -1, 1, 0, 255);
+    // fill(red, green, blue, 55);
+    // translate(width / 2, height / 2);
+    for (let i = 0; i < 200000; i++) {
+
+        // let probability = map(this.current.y, 0, 1, 0.1, 1);
+        // if (random() < probability) {
+
+        // }
+        newRand = random(this.seeds);
+        while (current == newRand) {
+            newRand = random(this.seeds);
+        }
+
+        this.current.x = lerp(this.current.x, newRand.x, lerpy);
+        this.current.y = lerp(this.current.y, newRand.y, lerpy);
+
+        let absX = abs(this.current.x);
+        let absY = abs(this.current.y);
+        absX *= absX;
+        absY *= absY;
+        let hyp = Math.sqrt(absX + absY);
+        let probability = map(hyp, 0, 2, 0, 1);
+        // if (newRand.i < 15) {
+        //     probability *= 0.25;
+        // }
+        if (Math.random() < probability) {
+            // this.vertices.push(this.current.x, this.current.y, 0.0);
+
+            if (lerpy == 0.95) {
+                if (i % 30 == 0) {
+                    //     //     // if (newRand.i > 15) {
+                    this.vertices.push(this.current.x, this.current.y, 0.0);
+                }
+                //     //     // }
+            } else {
+                this.vertices.push(this.current.x, this.current.y, 0.0);
+            }
+        }
+
+
+    }
+
+};
+
+
+let smoothSpiral7zoom = new Game();
+smoothSpiral7zoom.it = 1050;
+smoothSpiral7zoom.initialize = function() {
+    this.seeds = [];
+    this.current = { x: random(width), y: random(height) };
+    let scalar = (Math.random() < 0.5) ? 0.25 : 0.05;
+    scalar = 0.25;
+    // if (frameCount > 1200) {
+    //     scalar = 0.05;
+    // }
+    let numOfPoints = 250;
+
+    // numOfPoints = (scalar == 0.25) ? 74 : 350;
+    // numOfPoints = 62;
+
+    let increment = Math.PI * 2 / numOfPoints;
+
+    let d = Math.PI * 2 / 6.75;
+    d = Math.PI / 4;
+    d = Math.PI / 8;
+    d = 0;
+    // d = Math.PI * 2;
+
+    this.zoom = map(this.it, 0, 12000, 0.00009, 0.9);
+
+    for (let i = d; i < numOfPoints; i += 1) {
+        let x = Math.cos(i) * i;
+        let y = Math.sin(i) * i;
+
+        x *= this.zoom;
+        y *= this.zoom;
+        // x += 2;
+        // this.seeds.push({ x: x - 1, y: y + 2 });
+        // this.seeds.push({ x: x - 0, y: y + 0, i: i });
+        this.seeds.push({ x: x, y: y, i: i });
+    }
+};
+
+
+smoothSpiral7zoom.update = function() {
+    let z = floor(map(this.zoom, 0.00009, 0.9, 10, 400));
+    if (this.it % z == 0) {
+        this.initialize();
+        gl.clear(gl.COLOR_BUFFER_BIT);
+        this.it++;
+    }
+
+    this.vertices = [];
+    let lerpy = map(sin(frameCount * 0.1), -1, 1, 0.5, 1);
+    let newRand;
+    lerpy = 0.9;
+    // lerpy = map(sin(frameCount * 0.1), -1, 1, 0.5, 0.75);
+    // lerpy = map(sin(frameCount * 0.1), -1, 1, 0.5, 0.55);
+    // lerpy = map(sin(frameCount * 0.1), -1, 1, 0.55, 0.65);
+    // lerpy = map(sin(frameCount * 10), -1, 1, 0.5, 1);
+    // lerpy = 0.9;
+    lerpy = random([0.75, 0.85, 0.95, 0.98]);
+    // lerpy = random([0.25, 0.5, 0.75, 0.85, 0.95, 1.25, 2]);
+    // lerpy += map(sin(frameCount * 10), -1, 1, 0.5, 1) * 0.1;
+    // lerpy += map(sin(frameCount * 10), -1, 1, 0.5, 1) * 0.1;
+    // let red = map(lerpy, 0, 1.25, 0, 255);
+    // let green = map(lerpy, 0, 1, 0, 155);
+    // let blue = map(lerpy, 0, 1.25, 20, 0);
+    // blue = map(sin(frameCount), -1, 1, 0, 255);
+    // fill(red, green, blue, 55);
+    // translate(width / 2, height / 2);
+    for (let i = 0; i < 200000; i++) {
+        // N++;
+        // let probability = map(this.current.y, 0, 1, 0.1, 1);
+        // if (random() < probability) {
+
+        // }
+        newRand = random(this.seeds);
+        while (current == newRand) {
+            newRand = random(this.seeds);
+        }
+
+        this.current.x = lerp(this.current.x, newRand.x, lerpy);
+        this.current.y = lerp(this.current.y, newRand.y, lerpy);
+
+        let absX = abs(this.current.x - 0);
+        let absY = abs(this.current.y);
+        absX *= absX;
+        absY *= absY;
+        let hyp = Math.sqrt(absX + absY);
+        let probability = map(hyp, 0, 2, 0, 1);
+        // if (newRand.i < 15) {
+        //     probability *= 0.25;
+        // }
+        if (Math.random() < probability) {
+            if (lerpy == 0.98) {
+                if (i % 4 == 0) {
+                    // if (newRand.i > 15) {
+                    this.vertices.push(this.current.x, this.current.y, 0.0);
+                }
+
+                // }
+            } else {
+                this.vertices.push(this.current.x, this.current.y, 0.0);
+            }
+        }
+
+
+    }
+
+};
+
+let game = smoothSpiral7zoom;
